@@ -26,6 +26,9 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import java.util.ArrayList;
 
+import istresearch.lineaustestinggrounds.Entities.Answer;
+import istresearch.lineaustestinggrounds.Entities.Question;
+
 /**
  * This is the main class for LinneuasTestingGround. It acts as the model for
  * the dynamic GUI setup.
@@ -39,11 +42,11 @@ public class MainDynamicActivity extends ActionBarActivity implements View.OnDra
     RelativeLayout relativeLayout;
     Canvas background;
     Bitmap bitmap;
-    Entity entitySelected;
+    Entity.EntityClass entitySelected;
     ArrayList<View> viewsOnSreen = new ArrayList<>();
-    ArrayList<Entity> entities = new ArrayList<>();
+    ArrayList<Entity.EntityClass> entities = new ArrayList<>();
     ImageButton drawLinks;
-    FrameLayout answerHolder, questionHolder;
+    FrameLayout answerHolder, questionHolder, genericHolder;
     float x1, y1;
     boolean drawLines, oneViewAlreadySelected;
     Paint drawingPaint;
@@ -66,6 +69,7 @@ public class MainDynamicActivity extends ActionBarActivity implements View.OnDra
             public void onClick(View view)
             {
                 //TODO make pop up dialog and create a new entity
+                makeNewGenericImage();
             }
         });
 
@@ -102,10 +106,13 @@ public class MainDynamicActivity extends ActionBarActivity implements View.OnDra
          */
         answerHolder = (FrameLayout) findViewById(R.id.answerHolder);
         questionHolder = (FrameLayout) findViewById(R.id.questionHolder);
+        genericHolder = (FrameLayout) findViewById(R.id.genericHolder);
 
         //Initializes all of the dynamic fields on screen
         makeNewQuestionImage();
         makeNewAnswerImage();
+
+
 
         //Initializes the reference variables used in the class
         x1 = y1 = 0;
@@ -161,19 +168,16 @@ public class MainDynamicActivity extends ActionBarActivity implements View.OnDra
     }
 
     //TODO think about condensing these new image methods down to one, generic method
-    public void makeNewQuestionImage()
-    {
+    public void makeNewQuestionImage() {
         final ImageButton blankQuestion = new ImageButton(this);
         //Adds the question icon to the view
         //TODO change icon/lettering so that it is generic and changes dependent on the name of the class
         blankQuestion.setImageResource(R.drawable.question);
 
-        questionHolder.setOnLongClickListener(new View.OnLongClickListener()
-        {
+        questionHolder.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View view)
-            {
-                entities.add(new Question(""));  //adds a new Question object to the entities list
+            public boolean onLongClick(View view) {
+                entities.add(new Entity.EntityClass(""));  //adds a new Question object to the entities list
                 //Sets up the info for the drag event
                 ClipData data = ClipData.newPlainText("", "Question" + (entities.size() - 1));
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
@@ -195,7 +199,8 @@ public class MainDynamicActivity extends ActionBarActivity implements View.OnDra
             @Override
             public boolean onLongClick(View view)
             {
-                entities.add(new Answer(""));
+
+                entities.add(new Entity.EntityClass(""));
                 ClipData data = ClipData.newPlainText("", "Answer" + (entities.size() - 1));
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                 view.startDrag(data, shadowBuilder, view, 0);
@@ -203,6 +208,30 @@ public class MainDynamicActivity extends ActionBarActivity implements View.OnDra
             }
         });
     }
+
+    public void makeNewGenericImage()
+    {
+        ImageView generic = new ImageView(this);
+
+        generic.setImageResource(R.drawable.plus);
+
+        genericHolder.setOnLongClickListener(new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View view)
+            {
+
+                entities.add(new Entity.EntityClass());
+                ClipData data = ClipData.newPlainText("", "Generic" + (entities.size() - 1));
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                view.startDrag(data, shadowBuilder, view, 0);
+                return true;
+            }
+        });
+
+
+    }
+
 
     @Override
     public boolean onDrag(View view, DragEvent dragEvent)
@@ -245,9 +274,10 @@ public class MainDynamicActivity extends ActionBarActivity implements View.OnDra
     public void refreshView()
     {
         //Remove below lines if not testing
+        /*
         FileReference test = new FileReference("", "");
         entities.add(test);
-        entities.get(0).sendLink(test);
+        entities.get(0).sendLink(test);*/
 
         //TODO run through the entities to cross check for activities on screen
         if(viewsOnSreen.size() < entities.size())
@@ -278,7 +308,7 @@ public class MainDynamicActivity extends ActionBarActivity implements View.OnDra
         }
     }
 
-    public void addNewView(int x, int y, Entity tag)
+    public void addNewView(int x, int y, Entity.EntityClass tag)
     {
         final int X = x;
         final int Y = y;
@@ -308,7 +338,7 @@ public class MainDynamicActivity extends ActionBarActivity implements View.OnDra
 
                     if(oneViewAlreadySelected)
                     {
-                        Entity secondEntity = (Entity) editText.getTag();
+                        Entity.EntityClass secondEntity = (Entity.EntityClass) editText.getTag();
                         //Sends link from first node to second node
                         entitySelected.sendLink(secondEntity);
                         //Second node accepts link invitation from first node
@@ -325,7 +355,7 @@ public class MainDynamicActivity extends ActionBarActivity implements View.OnDra
                         x1 = editText.getX();
                         y1 = editText.getBottom();
                         oneViewAlreadySelected = true;
-                        entitySelected = (Entity) editText.getTag();
+                        entitySelected = (Entity.EntityClass) editText.getTag();
                     }
                 }
                 else

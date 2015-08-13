@@ -3,24 +3,40 @@ package istresearch.lineaustestinggrounds;
 /**
  * Created by Titch on 6/25/2015.
  */
-public class Link <P, C>
+public class Link <N, M>
 {
-    private P parent;
-    private C child;
+    private N node1;
+    private M node2;
+    private int referenceFrom1To2;
+    private int referenceFrom2To1;
 
-    public Link(P p, C c)
+    public Link(N n, M m)
     {
-        parent = p;
-        child = c;
+        node1 = n;
+        node2 = m;
     }
 
-    public P getParent()
+    public N getNode1()
     {
-        return parent;
+        return node1;
     }
 
-    public C getChild()
+    public M getNode2()
     {
-        return child;
+        return node2;
+    }
+
+    public int getReferenceTypeFromNode1ToNode2() { return referenceFrom1To2; }
+
+    public void setReferenceTypeFromNode1ToNode2(int refType)
+    {
+        referenceFrom1To2 = refType;
+    }
+
+    public int getReferenceTypeFromNode2ToNode1() { return referenceFrom2To1; }
+
+    public void setReferenceTypeFromNode2ToNode1(int refType)
+    {
+        referenceFrom1To2 = refType;
     }
 }

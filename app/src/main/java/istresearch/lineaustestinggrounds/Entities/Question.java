@@ -1,6 +1,8 @@
-package istresearch.lineaustestinggrounds;
+package istresearch.lineaustestinggrounds.Entities;
 
 import java.util.ArrayList;
+
+import istresearch.lineaustestinggrounds.Entity;
 
 /**
  * Created by Titch on 6/25/2015.

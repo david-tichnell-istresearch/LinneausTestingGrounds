@@ -11,7 +11,7 @@ import java.lang.ref.Reference;
 /**
  * @author ctsims
  */
-public class FileReference extends Entity
+public class FileReference implements Entity
 {
     String localPart;
     String referencePart;

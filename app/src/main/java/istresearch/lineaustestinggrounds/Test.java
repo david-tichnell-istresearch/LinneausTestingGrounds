@@ -1,8 +1,8 @@
 package istresearch.lineaustestinggrounds;
 
 /**
- * Created by Titch on 7/11/2015.
+ * Created by David Tichnell on 7/11/2015.
  */
-public class Test extends Entity
+public class Test implements Entity
 {
 }

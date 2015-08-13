@@ -1,4 +1,6 @@
-package istresearch.lineaustestinggrounds;
+package istresearch.lineaustestinggrounds.Entities;
+
+import istresearch.lineaustestinggrounds.Entity;
 
 /**
  * Created by Titch on 6/25/2015.
